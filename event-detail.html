@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>イベント・セミナー詳細 | Bloom Life Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <!-- style.css が読み込めない環境でも表示できるようにする最低限のスタイル。
+       style.css より前に置いてあるので、本番では style.css 側が優先されます。 -->
+  <style>
+    :root{
+      --ink:#3a2e2c; --ink-soft:#6b5b57; --line:#e7ded9;
+      --paper:#fffdfb; --paper-2:#faf5f1; --accent:#b9776b;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--paper);color:var(--ink);
+      font-family:"Hiragino Sans","Noto Sans JP",system-ui,sans-serif;
+      line-height:1.8;-webkit-font-smoothing:antialiased}
+    img{max-width:100%;display:block}
+    a{color:inherit}
+    .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+    header{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:1px solid var(--line)}
+    .header-inner{max-width:1200px;margin:0 auto;padding:12px 20px;
+      display:flex;align-items:center;gap:24px}
+    .main-nav{display:flex;gap:18px;margin-left:auto;flex-wrap:wrap}
+    .main-nav a{text-decoration:none;font-size:13px;font-weight:600;display:grid;text-align:center}
+    .main-nav .sub{font-size:10px;color:var(--ink-soft);font-weight:400}
+    .header-cta{display:flex;align-items:center;gap:14px}
+    .tel-block .num{font-size:17px;font-weight:700}
+    .tel-block .hours{font-size:10px;color:var(--ink-soft)}
+    .line-btn{background:#06c755;color:#fff;text-decoration:none;padding:10px 16px;
+      border-radius:999px;font-size:13px;font-weight:700}
+    .burger{display:none;background:none;border:0;padding:8px;gap:4px}
+    .burger span{display:block;width:22px;height:2px;background:var(--ink)}
+
+    .breadcrumb{padding:16px 20px;font-size:12px;color:var(--ink-soft)}
+    .breadcrumb a{text-decoration:none}
+    .breadcrumb .sep{margin:0 8px}
+
+    .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;padding:24px 20px 8px}
+    .detail-gallery-main img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px}
+    .detail-thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px}
+    .thumb-btn{padding:0;border:2px solid transparent;background:none;border-radius:8px;
+      overflow:hidden;cursor:pointer}
+    .thumb-btn.active{border-color:var(--accent)}
+    .thumb-btn img{aspect-ratio:1/1;object-fit:cover}
+    .detail-tag{display:inline-block;background:var(--paper-2);border:1px solid var(--line);
+      border-radius:999px;padding:4px 14px;font-size:11px;letter-spacing:.08em}
+    .detail-title{font-size:30px;margin:14px 0 10px;line-height:1.4}
+    .detail-lead{color:var(--ink-soft);font-size:14px;margin:0 0 22px}
+    .detail-meta{border-top:1px solid var(--line)}
+    .detail-meta-row{display:grid;grid-template-columns:88px 1fr;gap:12px;
+      padding:11px 0;border-bottom:1px solid var(--line);font-size:14px}
+    .detail-meta-row .label{color:var(--ink-soft);font-size:13px}
+    .detail-actions{display:flex;gap:12px;margin:22px 0;flex-wrap:wrap}
+    .btn{display:inline-block;text-decoration:none;padding:13px 26px;border-radius:999px;
+      font-size:14px;font-weight:700}
+    .btn-primary{background:var(--accent);color:#fff}
+    .btn-outline{border:1px solid var(--accent);color:var(--accent)}
+    .detail-point{display:flex;gap:10px;align-items:flex-start;font-size:14px;margin-bottom:8px}
+    .detail-point .dot{color:var(--accent);font-weight:700}
+
+    .detail-section{padding:36px 0}
+    .detail-section h3{font-size:20px;margin:0 0 16px;padding-left:12px;
+      border-left:3px solid var(--accent)}
+    .detail-body-text{font-size:15px;margin:0 0 16px;max-width:70ch}
+    .related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .related-card{text-decoration:none;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}
+    .related-photo img{aspect-ratio:3/2;object-fit:cover;width:100%}
+    .related-body{padding:14px}
+    .rtag{font-size:10px;color:var(--accent);letter-spacing:.08em}
+    .related-body h4{margin:6px 0;font-size:16px}
+    .rprice{font-size:12px;color:var(--ink-soft)}
+
+    .not-found{text-align:center;padding:64px 20px}
+    .not-found h2{font-size:22px;margin:0 0 8px}
+    .not-found p{color:var(--ink-soft);font-size:14px}
+    .nf-list{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:28px 0 24px;text-align:left}
+
+    .cta-band{background:var(--paper-2);padding:52px 0;text-align:center;margin-top:20px}
+    .cta-band h2{font-size:22px;margin:0 0 6px}
+    .cta-band p{color:var(--ink-soft);font-size:14px;margin:0 0 20px}
+    .cta-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+    footer{background:var(--ink);color:#f4ece8;padding:48px 0 20px;margin-top:0}
+    .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px}
+    .footer-logo{display:flex;gap:10px;align-items:center}
+    .footer-logo .en{font-weight:700}
+    .footer-addr{font-size:12px;opacity:.75;margin-top:14px}
+    .footer-social{display:flex;gap:8px;margin-top:14px}
+    .footer-social a{width:32px;height:32px;border:1px solid rgba(255,255,255,.35);border-radius:50%;
+      display:grid;place-items:center;font-size:11px;text-decoration:none}
+    .footer-col h5{font-size:12px;letter-spacing:.1em;margin:0 0 12px;opacity:.7}
+    .footer-col a{display:block;font-size:13px;text-decoration:none;opacity:.85;margin-bottom:8px}
+    .footer-bottom{border-top:1px solid rgba(255,255,255,.18);margin-top:32px;padding-top:16px;
+      font-size:11px;opacity:.7}
+
+    @media (max-width:900px){
+      .main-nav,.header-cta{display:none}
+      .burger{display:flex;flex-direction:column;margin-left:auto}
+      .detail-grid{grid-template-columns:1fr;gap:24px}
+      .related-grid,.nf-list{grid-template-columns:1fr 1fr}
+      .footer-grid{grid-template-columns:1fr}
+      .detail-title{font-size:24px}
+    }
+  </style>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header>
+    <div class="header-inner">
+      <a href="#" class="logo">
+        <div class="logo-mark">B</div>
+        <div class="logo-text">
+          <div class="en">Bloom<br><span style="font-size:12px;letter-spacing:.06em;">Life Studio</span></div>
+        </div>
+      </a>
+      <nav class="main-nav">
+        <a href="index.html#hero">HOME<span class="sub">ホーム</span></a>
+        <a href="index.html#about">ABOUT<span class="sub">私たちについて</span></a>
+        <a href="index.html#service">SERVICE<span class="sub">サービス</span></a>
+        <a href="index.html#gift">GIFT<span class="sub">ギフト</span></a>
+        <a href="index.html#event">EVENT<span class="sub">イベント・セミナー</span></a>
+        <a href="index.html#voice">VOICE<span class="sub">お客様の声</span></a>
+        <a href="index.html#access">ACCESS<span class="sub">アクセス</span></a>
+      </nav>
+      <div class="header-cta">
+        <div class="tel-block">
+          <div class="num">000-1234-5678</div>
+          <div class="hours">受付時間 9:00-18:00（不定休）</div>
+        </div>
+        <a href="#" class="line-btn"><span class="label">LINEで予約する</span></a>
+      </div>
+      <button class="burger" aria-label="メニュー"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <div class="wrap breadcrumb">
+    <a href="index.html">HOME</a><span class="sep">/</span>
+    <a href="index.html#event">EVENT &amp; SEMINAR</a><span class="sep">/</span>
+    <span class="current" id="bc-title">イベント詳細</span>
+  </div>
+
+  <div id="detail-root"></div>
+  <div id="notfound-root"></div>
+
+  <section class="cta-band">
+    <div class="wrap">
+      <h2>あなたらしい人生を、もっと楽しみませんか？</h2>
+      <p>まずはお気軽にご相談ください。</p>
+      <div class="cta-actions">
+        <a href="#" class="btn btn-primary">LINEで予約する</a>
+        <a href="index.html#about" class="btn btn-outline">無料カウンセリング予約</a>
+      </div>
+    </div>
+  </section>
+
+  <footer id="access">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">
+            <div class="logo-mark">B</div>
+            <div>
+              <div class="en">Bloom<br><span style="font-size:11px;letter-spacing:.06em;">Life Studio</span></div>
+            </div>
+          </div>
+          <div class="footer-addr">
+            〒000-0000<br>
+            ○○県○○市○○町1-2-3 Bloomビル1F<br>
+            営業時間 9:00-18:00（不定休）
+          </div>
+          <div class="footer-social">
+            <a href="#" aria-label="Instagram">IG</a>
+            <a href="#" aria-label="LINE">LN</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>MENU</h5>
+          <a href="index.html#hero">HOME｜ホーム</a>
+          <a href="index.html#about">ABOUT｜私たちについて</a>
+          <a href="index.html#service">SERVICE｜サービス</a>
+          <a href="index.html#gift">GIFT｜ギフト</a>
+        </div>
+        <div class="footer-col">
+          <h5>INFORMATION</h5>
+          <a href="index.html#event">EVENT｜イベント・セミナー</a>
+          <a href="index.html#voice">VOICE｜お客様の声</a>
+          <a href="#">BLOG｜ブログ</a>
+          <a href="index.html#access">ACCESS｜アクセス</a>
+          <a href="#">PRIVACY POLICY</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© Bloom Life Studio All Rights Reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ==== イベントデータ ====
+    const EVENTS = {
+      1: {
+        tag: "BEAUTY",
+        title: "美肌メイクレッスン",
+        image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1200&auto=format&fit=crop",
+        gallery: [
+          "https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=600&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=600&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=600&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=600&auto=format&fit=crop"
+        ],
+        lead: "「メイクがなんとなくマンネリ」「肌をきれいに見せる塗り方を知りたい」という方へ。プロの講師が、なりたい印象に近づくメイクの基本をやさしくレクチャーします。",
+        meta: [
+          ["日時", "6/15（土）10:00〜12:00"],
+          ["定員", "6名"],
+          ["参加費", "¥3,500（税込・教材費込み）"],
+          ["持ち物", "普段お使いのメイク道具（貸出も可）"],
+          ["会場", "Bloom Life Studio 店内"],
+        ],
+        points: [
+          "肌質・骨格に合わせたベースメイクのコツが学べます",
+          "少人数制なので初心者の方も安心してご参加いただけます",
+          "レッスン後は無料カウンセリングもご利用いただけます"
+        ],
+        body: [
+          "「メイクの自己流に自信が持てない」「もっと垢抜けた印象になりたい」という声から生まれたレッスンです。ベースメイクから眉・チーク・リップまで、なりたい雰囲気別にポイントをお伝えします。",
+          "実際に手を動かしながら学べるワークショップ形式なので、レッスン後もご自宅で再現しやすいのが特徴です。"
+        ]
+      },
+      2: {
+        tag: "HEALTH",
+        title: "姿勢改善セミナー",
+        image: "https://images.unsplash.com/photo-1519823551278-64ac92734fb1?q=80&w=1200&auto=format&fit=crop",
+        gallery: [
+          "https://images.unsplash.com/photo-1519823551278-64ac92734fb1?q=80&w=600&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=600&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1620733723572-11c53f73a416?q=80&w=600&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=600&auto=format&fit=crop"
+        ],
+        lead: "デスクワークやスマホ習慣で崩れがちな姿勢を、自宅でできるセルフケアで整えるセミナーです。肩こり・腰痛・むくみが気になる方におすすめです。",
+        meta: [
+          ["日時", "6/22（土）10:00〜11:30"],
+          ["定員", "8名"],
+          ["参加費", "¥2,000（税込）"],
+          ["持ち物", "動きやすい服装"],
+          ["会場", "Bloom Life Studio 店内"],
+        ],
+        points: [
+          "姿勢が崩れる原因をセルフチェックで確認できます",
+          "自宅で続けられる簡単なストレッチをお持ち帰りいただけます",
+          "参加者には施術メニューの特別割引券をプレゼント"
+        ],
+        body: [
+          "在宅時間の増加とともにご相談が増えている「姿勢の崩れ」。本セミナーでは、専門講師が姿勢と不調の関係をわかりやすく解説し、その場でできるセルフケアを一緒に実践します。",
+          "特別な運動経験がなくても大丈夫。日常生活に取り入れやすい内容を中心に構成しています。"
+        ]
+      },
+      3: {
+        tag: "LIFE & FINANCE",
+        title: "女性のためのNISA講座",
+        image: "https://images.unsplash.com/photo-1605651202774-7d573fd3f12d?q=80&w=1200&auto=format&fit=crop",
+        gallery: [
+          "https://images.unsplash.com/photo-1605651202774-7d573fd3f12d?q=80&w=600&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1600210492493-0946911123ea?q=80&w=600&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1617201929478-8eedff7508f9?q=80&w=600&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1528351655744-27cc30462816?q=80&w=600&auto=format&fit=crop"
+        ],
+        lead: "「NISAって聞いたことはあるけど、何から始めればいいかわからない」という方向けの入門講座です。ファイナンシャルプランナーが、基礎からやさしく解説します。",
+        meta: [
+          ["日時", "6/29（土）10:00〜12:00"],
+          ["定員", "10名"],
+          ["参加費", "無料"],
+          ["持ち物", "筆記用具"],
+          ["会場", "Bloom Life Studio 店内"],
+        ],
+        points: [
+          "専門用語を使わず、図解つきでやさしく解説します",
+          "個別相談の時間もご用意しています（希望制）",
+          "特定の金融商品の勧誘は一切行いません"
+        ],
+        body: [
+          "将来のお金の不安を「なんとなく」のままにしていませんか。本講座では、NISA制度の基本的な仕組みから、無理のない資産形成の考え方までをわかりやすくお伝えします。",
+          "投資の知識に自信がない方も安心してご参加いただける内容です。ご希望の方には、講座後に個別相談のお時間も設けています。"
+        ]
+      },
+      4: {
+        tag: "COMMUNITY",
+        title: "お茶会・交流会",
+        image: "https://images.unsplash.com/photo-1600210492493-0946911123ea?q=80&w=1200&auto=format&fit=crop",
+        gallery: [
+          "https://images.unsplash.com/photo-1600210492493-0946911123ea?q=80&w=600&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1641301315713-8003143f6c42?q=80&w=600&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1617201929478-8eedff7508f9?q=80&w=600&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1537948756265-406a522f1a45?q=80&w=600&auto=format&fit=crop"
+        ],
+        lead: "同じ想いを持つ女性同士が気軽につながれるお茶会です。美味しいお茶とお菓子を囲みながら、リラックスした雰囲気でおしゃべりを楽しみませんか。",
+        meta: [
+          ["日時", "7/6（土）14:00〜16:00"],
+          ["定員", "12名"],
+          ["参加費", "¥1,500（税込・お茶菓子付き）"],
+          ["持ち物", "特になし"],
+          ["会場", "Bloom Life Studio 店内"],
+        ],
+        points: [
+          "一人でのご参加も大歓迎です",
+          "テーマは決めず、自由におしゃべりを楽しむ会です",
+          "サロンスタッフも同席し、ちょっとした相談にもお答えします"
+        ],
+        body: [
+          "「新しいコミュニティに参加してみたいけれど、いきなりは緊張する」という方にこそおすすめしたい、少人数制のお茶会です。年代も職業もさまざまな女性たちが集まり、自然と会話が生まれる温かい時間になっています。",
+          "参加をきっかけに、サロン外でも繋がりが生まれたという声もいただいています。お気軽にご参加ください。"
+        ]
+      }
+    };
+
+    // ==== 表示するイベントIDの決定 ====
+    // ?id=2 / #id=2 / ?2 のいずれにも対応し、
+    // 指定が無い場合は先頭のイベントを表示する（従来はここで必ず「見つかりません」になっていた）
+    function resolveEventId() {
+      const search = new URLSearchParams(window.location.search);
+      const hash = new URLSearchParams(String(window.location.hash).replace(/^#/, ''));
+      const raw = search.get('id') || hash.get('id') ||
+                  (window.location.search.match(/^\?(\d+)$/) || [])[1];
+
+      const key = raw == null ? '' : String(raw).trim();
+      if (key && Object.prototype.hasOwnProperty.call(EVENTS, key)) return key;
+      if (key) return null;                   // 指定はあるが該当なし → 見つかりません
+      return Object.keys(EVENTS)[0];          // 指定なし → 先頭を表示
+    }
+
+    const id = resolveEventId();
+    const data = id ? EVENTS[id] : null;
+    const root = document.getElementById('detail-root');
+    const notfound = document.getElementById('notfound-root');
+
+    function esc(s){
+      const d = document.createElement('div');
+      d.textContent = s;
+      return d.innerHTML;
+    }
+
+    if (data) {
+      document.title = data.title + " | Bloom Life Studio";
+      document.getElementById('bc-title').textContent = data.title;
+
+      root.innerHTML = `
+        <section class="detail-hero">
+          <div class="wrap detail-grid">
+            <div>
+              <div class="detail-gallery-main">
+                <img id="mainImg" src="${esc(data.image)}" alt="${esc(data.title)}">
+              </div>
+              <div class="detail-thumbs">
+                ${data.gallery.map((src, i) => `
+                  <button type="button" class="thumb-btn ${i===0 ? 'active' : ''}" data-src="${esc(src)}">
+                    <img src="${esc(src)}" alt="${esc(data.title)} 画像${i+1}">
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+            <div>
+              <span class="detail-tag">${esc(data.tag)}</span>
+              <h1 class="detail-title">${esc(data.title)}</h1>
+              <p class="detail-lead">${esc(data.lead)}</p>
+
+              <div class="detail-meta">
+                ${data.meta.map(([label, value]) => `
+                  <div class="detail-meta-row">
+                    <div class="label">${esc(label)}</div>
+                    <div class="value">${esc(value)}</div>
+                  </div>
+                `).join('')}
+              </div>
+
+              <div class="detail-actions">
+                <a href="#" class="btn btn-primary">LINEで申し込む</a>
+                <a href="tel:0001234567" class="btn btn-outline">電話で申し込む</a>
+              </div>
+
+              <div class="detail-points">
+                ${data.points.map(p => `
+                  <div class="detail-point"><span class="dot">✓</span><span>${esc(p)}</span></div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="detail-section">
+          <div class="wrap">
+            <h3>イベントについて</h3>
+            ${data.body.map(p => `<p class="detail-body-text">${esc(p)}</p>`).join('')}
+          </div>
+        </section>
+
+        <section class="detail-section">
+          <div class="wrap">
+            <h3>他のイベント・セミナー</h3>
+            <div class="related-grid" id="relatedGrid"></div>
+          </div>
+        </section>
+      `;
+
+      document.querySelectorAll('.thumb-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.getElementById('mainImg').src = btn.dataset.src;
+          document.querySelectorAll('.thumb-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        });
+      });
+
+      // 現在のファイル名を使うので、ファイル名を変えてもリンクが切れない
+      const PAGE = window.location.pathname.split('/').pop() || 'event-detail.html';
+
+      const relatedGrid = document.getElementById('relatedGrid');
+      Object.keys(EVENTS).filter(k => k !== String(id)).forEach(k => {
+        const e = EVENTS[k];
+        const card = document.createElement('a');
+        card.href = `${PAGE}?id=${k}`;
+        card.className = 'related-card';
+        card.innerHTML = `
+          <div class="related-photo"><img src="${esc(e.image)}" alt="${esc(e.title)}"></div>
+          <div class="related-body">
+            <div class="rtag">${esc(e.tag)}</div>
+            <h4>${esc(e.title)}</h4>
+            <div class="rprice">${esc(e.meta[0][1])}</div>
+          </div>
+        `;
+        relatedGrid.appendChild(card);
+      });
+
+    } else {
+      // 該当IDが無い場合も行き止まりにせず、開催中のイベントを一覧表示する
+      const PAGE = window.location.pathname.split('/').pop() || 'event-detail.html';
+      notfound.innerHTML = `
+        <div class="wrap not-found">
+          <h2>指定されたイベントは見つかりませんでした</h2>
+          <p>開催予定のイベントからお選びください。</p>
+          <div class="nf-list">
+            ${Object.keys(EVENTS).map(k => {
+              const e = EVENTS[k];
+              return `
+                <a class="related-card" href="${PAGE}?id=${k}">
+                  <div class="related-photo"><img src="${esc(e.image)}" alt="${esc(e.title)}"></div>
+                  <div class="related-body">
+                    <div class="rtag">${esc(e.tag)}</div>
+                    <h4>${esc(e.title)}</h4>
+                    <div class="rprice">${esc(e.meta[0][1])}</div>
+                  </div>
+                </a>`;
+            }).join('')}
+          </div>
+          <a href="index.html#event" class="btn btn-outline">イベント一覧へ戻る</a>
+        </div>
+      `;
+    }
+
+    const header = document.querySelector('header');
+    window.addEventListener('scroll', () => {
+      header.style.boxShadow = window.scrollY > 12 ? '0 8px 24px -18px rgba(58,46,44,.4)' : 'none';
+    });
+  </script>
+</body>
+
+</html>
