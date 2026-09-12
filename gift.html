@@ -246,9 +246,9 @@
       </div>
       <div class="gift-collage">
         <!-- ▼ 仮画像（Unsplash）。img/ 配下の写真に差し替えてください -->
-        <img class="c1" src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?q=80&w=800&auto=format&fit=crop" alt="リボンをかけたギフトボックス">
-        <img class="c2" src="https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=600&auto=format&fit=crop" alt="ラッピングされたギフト">
-        <img class="c3" src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=600&auto=format&fit=crop" alt="メッセージカードを添えた贈り物">
+        <img class="c1" src="img/skin.png" alt="リボンをかけたギフトボックス">
+        <img class="c2" src="img/tea.png" alt="ラッピングされたギフト">
+        <img class="c3" src="img/salt.png" alt="メッセージカードを添えた贈り物">
       </div>
     </div>
   </section>
@@ -273,21 +273,21 @@
       <div class="wrap-grid">
         <div class="wrap-item">
           <!-- ▼ 仮画像 -->
-          <img src="https://images.unsplash.com/photo-1621607512214-68297480165e?q=80&w=700&auto=format&fit=crop" alt="ボックスラッピング">
+          <img src="img/lappingbox.png" alt="ボックスラッピング">
           <h4>ボックスラッピング</h4>
           <p>やわらかなくすみピンクの箱に、サテンリボンを添えて。誕生日や記念日の贈り物に。</p>
           <div class="fee">無料</div>
         </div>
         <div class="wrap-item">
           <!-- ▼ 仮画像 -->
-          <img src="https://images.unsplash.com/photo-1600948836101-f9ffda59d250?q=80&w=700&auto=format&fit=crop" alt="巾着ラッピング">
+          <img src="img/lapping.png" alt="巾着ラッピング">
           <h4>巾着ラッピング</h4>
           <p>そのまま小物入れとして使える布製の巾着。渡したあとも残るギフトです。</p>
           <div class="fee">無料</div>
         </div>
         <div class="wrap-item">
           <!-- ▼ 仮画像 -->
-          <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=700&auto=format&fit=crop" alt="メッセージカード">
+          <img src="img/messagecard.png" alt="メッセージカード">
           <h4>メッセージカード</h4>
           <p>手書きのメッセージをお預かりして同封します。ご来店・LINEどちらでも承ります。</p>
           <div class="fee">無料</div>
@@ -421,7 +421,7 @@
     const GIFTS = [
       {
         id: 1, cat: "体験ギフト", title: "パーソナルカラー診断チケット", price: 11000,
-        image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=900&auto=format&fit=crop",
+        image: "img/drape.jpg",
         desc: "似合う色を知ることから始まる、新しい自分との出会いを贈ります。",
         lead: "120分のマンツーマン診断で、肌・瞳・髪の色から似合う色を見つけます。診断後は似合う色のメイク提案までお伝えするので、その日から使える内容です。",
         spec: [["所要時間", "約120分"], ["有効期限", "発行日から6か月"], ["形式", "紙チケット（ラッピング付き）"]],
@@ -437,7 +437,7 @@
       },
       {
         id: 3, cat: "体験ギフト", title: "ヘッドスパ 60分チケット", price: 8800,
-        image: "https://images.unsplash.com/photo-1519823551278-64ac92734fb1?q=80&w=900&auto=format&fit=crop",
+        image: "img/head.png",
         desc: "頑張っている人に、なにも考えなくていい60分を。",
         lead: "頭皮のこわばりをゆるめながら、首・肩まわりまで丁寧にほぐします。パソコン仕事や育児で気を張っている方への贈り物として選ばれています。",
         spec: [["所要時間", "約60分"], ["有効期限", "発行日から6か月"], ["形式", "紙チケット（ラッピング付き）"]],
@@ -445,7 +445,7 @@
       },
       {
         id: 4, cat: "体験ギフト", title: "マネー相談 60分チケット", price: 6600,
-        image: "https://images.unsplash.com/photo-1605651202774-7d573fd3f12d?q=80&w=900&auto=format&fit=crop",
+        image: "img/money.jpg",
         desc: "将来のお金の不安を、ひとりで抱えないための時間を贈ります。",
         lead: "ファイナンシャルプランナーが、NISAや家計の見直しについて個別にお話しします。特定の金融商品の勧誘は一切行いません。オンラインでの相談も可能です。",
         spec: [["所要時間", "約60分"], ["有効期限", "発行日から6か月"], ["対応方法", "ご来店またはオンライン"]],
@@ -453,7 +453,7 @@
       },
       {
         id: 5, cat: "セレクトギフト", title: "オリジナルハーブティー 3種セット", price: 3800,
-        image: "https://images.unsplash.com/photo-1600210492493-0946911123ea?q=80&w=900&auto=format&fit=crop",
+        image: "img/tea.png",
         desc: "朝・昼・夜、その時間に合うブレンドを3種そろえました。",
         lead: "目覚めの一杯、午後のひと息、眠る前のリラックス。時間帯ごとに飲み分けられる3種のブレンドです。ノンカフェインなので夜も安心してお飲みいただけます。",
         spec: [["内容", "ティーバッグ 各5包・計15包"], ["賞味期限", "製造日から12か月"], ["原材料", "カモミール・ルイボス他"]],
@@ -461,7 +461,7 @@
       },
       {
         id: 6, cat: "セレクトギフト", title: "アロマバスギフトセット", price: 5200,
-        image: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?q=80&w=900&auto=format&fit=crop",
+        image: "img/salt.png",
         desc: "一日の終わりを、ゆっくり手放すためのバスタイムセット。",
         lead: "バスソルト2種とアロマオイル、コットンのタオルをセットにしました。香りは季節に合わせて店頭で選んでいるので、その時期のおすすめをお包みします。",
         spec: [["内容", "バスソルト2種・アロマオイル・タオル"], ["香り", "季節により変わります"], ["賞味期限", "なし（開封後は半年目安）"]],
@@ -469,7 +469,7 @@
       },
       {
         id: 7, cat: "セレクトギフト", title: "スキンケアトライアルボックス", price: 6800,
-        image: "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=900&auto=format&fit=crop",
+        image: "img/skin.png",
         desc: "サロンで使っているスキンケアを、まずは2週間分から。",
         lead: "クレンジングから保湿までの4ステップを、2週間試せる分量でセットにしました。肌質が分からない相手にも贈りやすい、低刺激タイプを選んでいます。",
         spec: [["内容", "クレンジング・洗顔・化粧水・クリーム"], ["容量", "各2週間分"], ["肌質", "全肌質対応（低刺激）"]],
@@ -477,7 +477,7 @@
       },
       {
         id: 8, cat: "ギフトカード", title: "選べるギフトカード", price: 5000,
-        image: "https://images.unsplash.com/photo-1621607512214-68297480165e?q=80&w=900&auto=format&fit=crop",
+        image: "img/giftcard.png",
         desc: "受け取った方が、自分でメニューを選べるカードです。",
         lead: "サロンのすべてのメニューと商品にお使いいただけます。金額は¥5,000から¥1,000単位でご指定いただけるので、ご予算に合わせやすいギフトです。",
         spec: [["金額", "¥5,000〜（¥1,000単位）"], ["有効期限", "発行日から1年"], ["利用範囲", "全メニュー・全商品"]],
@@ -485,7 +485,7 @@
       },
       {
         id: 9, cat: "セレクトギフト", title: "フラワー＆スイーツセット", price: 7500,
-        image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=900&auto=format&fit=crop",
+        image: "img/flour.png",
         desc: "そのまま飾れるドライフラワーと、焼き菓子の詰め合わせ。",
         lead: "花瓶がなくても飾れるスワッグと、近隣の焼き菓子店に依頼している詰め合わせのセットです。日持ちするので、当日に渡せない場面でも安心です。",
         spec: [["内容", "ドライフラワースワッグ・焼き菓子6個"], ["賞味期限", "お渡しから約3週間"], ["ご注意", "花の種類は季節により変わります"]],
