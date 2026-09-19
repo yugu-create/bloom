@@ -69,10 +69,8 @@
   }
   .logo{display:flex; align-items:center; gap:12px;}
   .logo-mark{
-    width:44px; height:44px; border-radius:50%;
-    border:1.4px solid var(--gold);
+    width:44px; height:44px;
     display:flex; align-items:center; justify-content:center;
-    font-family:'Shippori Mincho',serif; color:var(--gold); font-size:19px;
     flex-shrink:0;
   }
   .logo-text{line-height:1.15;}
@@ -309,4 +307,25 @@
     .cta-actions{flex-direction:column; align-items:stretch;}
     .footer-bottom{flex-direction:column;}
     .header-cta .line-btn span.label{display:none;}
+  }
+/* ===== お客様の声「もっと見る」用スタイル ===== */
+  .voice-hidden {
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .voice-hidden.is-open {
+    display: flex;
+  }
+  .voice-more-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    padding: 0;
+    color: var(--ink);
+    transition: opacity 0.2s ease;
+  }
+  .voice-more-btn:hover {
+    opacity: 0.7;
   }

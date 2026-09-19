@@ -14,7 +14,7 @@
   <header>
     <div class="header-inner">
       <a href="#" class="logo">
-        <div class="logo-mark">B</div>
+        <div class="logo-mark"><img src="img/logo.svg" alt=""></div>
         <div class="logo-text">
           <div class="en">Bloom<br><span style="font-size:12px;letter-spacing:.06em;">Life Studio</span></div>
         </div>
@@ -47,7 +47,7 @@
         <p class="lead">美容・健康・学び・交流・お金の5つのサポートで、<br>女性の人生をもっと豊かに、あなたらしく。</p>
         <div class="hero-actions">
           <a href="#" class="btn btn-primary">LINEで予約する</a>
-          <a href="#" class="btn btn-outline">無料カウンセリング予約</a>
+          <a href="counseling.html" class="btn btn-outline">無料カウンセリング予約</a>
         </div>
       </div>
       <div class="hero-visual">
@@ -151,7 +151,7 @@
       </div>
       <div class="service-grid">
         <div class="service-card">
-          <div class="service-photo"><img src="img/drape.jpg" alt="パーソナルカラー診断"></div>
+          <div class="service-photo"><img src="img/personalcolor.png" alt="パーソナルカラー診断"></div>
           <div class="service-body">
             <h4>パーソナルカラー診断</h4>
             <p>似合う色で魅力を最大限に</p>
@@ -166,7 +166,7 @@
         </div>
         <div class="service-card">
           <div class="service-photo"><img
-              src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=800&auto=format&fit=crop"
+              src="img/makelesson.png"
               alt="メイクレッスン"></div>
           <div class="service-body">
             <h4>メイクレッスン</h4>
@@ -197,7 +197,7 @@
           </div>
         </div>
       </div>
-      <div class="center-cta"><a href="#" class="btn btn-outline">サービス一覧を見る</a></div>
+      <div class="center-cta"><a href="service.html" class="btn btn-outline">サービス一覧を見る</a></div>
     </div>
   </section>
 
@@ -212,7 +212,7 @@
             <a href="gift.html"><img src="img/tea.png" alt="ギフト2"></a>
             <a href="gift.html"><img src="img/salt.png" alt="ギフト3"></a>
             <a href="gift.html"><img src="img/flour.png" alt="ギフト4"></a>
-            <span class="etitle">もっと見る→</span>
+            <span class="etitle"><a href="gift.html">もっと見る→</a></span>
           </div>
         </div>
 
@@ -257,7 +257,7 @@
               </div>
             </a>
             <div>
-              <div><span class="etitle">もっと見る→</span></div>
+              <div><span class="etitle"><a href="event-detail.html">もっと見る→</a></span></div>
             </div>
           </div>
         </div>
@@ -280,8 +280,26 @@
               <p>自分の時間を大切にできる場所に出会えて嬉しいです。</p>
               <div class="who">30代・主婦</div>
             </div>
-            <span class="etitle">もっと見る→</span>
 
+            <!-- ▼ ここから「もっと見る」で表示される追加分 -->
+            <div class="voice-hidden" id="voiceMore">
+              <div class="voice-card">
+                <div class="stars">★★★★★</div>
+                <p>初めてのヘッドスパで頭も心もすっきりと軽くなりました！定期的に通いたいと思います。</p>
+                <div class="who">30代・会社員</div>
+              </div>
+              <div class="voice-card">
+                <div class="stars">★★★★★</div>
+                <p>初心者向けのNISA講座に参加しました。分かりやすくてこれからの資産形成の参考になりました。</p>
+                <div class="who">40代・パート</div>
+              </div>
+            </div>
+            <!-- ▲ 追加分ここまで -->
+
+            <!-- クリックボタン -->
+            <button type="button" class="voice-more-btn" id="voiceMoreBtn">
+              <span class="etitle">もっと見る→</span>
+            </button>
           </div>
         </div>
         <div class="quad-col">
@@ -380,6 +398,19 @@
         }
       });
     });
+    // お客様の声「もっと見る」の開閉処理
+    const voiceMoreBtn = document.getElementById('voiceMoreBtn');
+    const voiceMore = document.getElementById('voiceMore');
+
+    if (voiceMoreBtn && voiceMore) {
+      voiceMoreBtn.addEventListener('click', () => {
+        voiceMore.classList.toggle('is-open');
+        // 開いたあとにボタンのテキストを変更、または非表示にする場合
+        if (voiceMore.classList.contains('is-open')) {
+          voiceMoreBtn.style.display = 'none'; // ボタン自体を隠す場合
+        }
+      });
+    }
   </script>
 </body>
 

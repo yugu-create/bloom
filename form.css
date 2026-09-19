@@ -1,0 +1,83 @@
+/* ===== フォーム専用スタイル ===== */
+.form-main {
+  padding: 80px 0;
+  background: var(--cream-deep);
+}
+.form-container {
+  max-width: 720px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 48px 40px;
+  border-radius: 8px;
+  box-shadow: 0 20px 40px -20px rgba(58,46,44,0.15);
+  border: 1px solid var(--line);
+}
+.form-group {
+  margin-bottom: 28px;
+}
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--ink);
+}
+.required {
+  background: var(--rose-deep);
+  color: #fff;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group input[type="datetime-local"],
+.form-group textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 14px;
+  background: var(--cream);
+  color: var(--ink);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--rose-deep);
+  box-shadow: 0 0 0 3px var(--rose-pale);
+  background: #fff;
+}
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 6px;
+}
+.checkbox-group label {
+  font-weight: normal;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 13.5px;
+}
+.checkbox-group input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--rose-deep);
+}
+.form-submit {
+  margin-top: 40px;
+}
+
+@media(max-width: 640px) {
+  .form-container {
+    padding: 24px 20px;
+  }
+}

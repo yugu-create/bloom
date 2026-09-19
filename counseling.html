@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>無料カウンセリング予約 | Bloom Life Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="form.css">
+</head>
+
+<body>
+
+  <header>
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-mark"><img src="img/logo.svg" alt=""></div>
+        <div class="logo-text">
+          <div class="en">Bloom<br><span style="font-size:12px;letter-spacing:.06em;">Life Studio</span></div>
+        </div>
+      </a>
+      <div class="header-cta">
+        <a href="index.html" class="btn btn-ghost" style="padding: 10px 20px; font-size: 13px;">← ホームに戻る</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="form-main">
+    <div class="wrap">
+      <div class="section-head center">
+        <span class="eyebrow" style="justify-content:center;">RESERVATION</span>
+        <h2>無料カウンセリング予約</h2>
+        <p>あなたにぴったりのプランや、日々の美容・ライフスタイルのご相談を承っております。下記フォームよりお気軽にご予約ください。</p>
+      </div>
+
+      <div class="form-container">
+        <form action="complete.html" method="POST">
+          <div class="form-group">
+            <label for="name">お名前 <span class="required">必須</span></label>
+            <input type="text" id="name" name="name" placeholder="例：山田 花子" required>
+          </div>
+
+          <div class="form-group">
+            <label for="kana">フリガナ <span class="required">必須</span></label>
+            <input type="text" id="kana" name="kana" placeholder="例：ヤマダ ハナコ" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">メールアドレス <span class="required">必須</span></label>
+            <input type="email" id="email" name="email" placeholder="例：example@domain.com" required>
+          </div>
+
+          <div class="form-group">
+            <label for="tel">お電話番号 <span class="required">必須</span></label>
+            <input type="tel" id="tel" name="tel" placeholder="例：090-1234-5678" required>
+          </div>
+
+          <div class="form-group">
+            <label for="date">ご希望日時 <span class="required">必須</span></label>
+            <input type="datetime-local" id="date" name="date" required>
+          </div>
+
+          <div class="form-group">
+            <label for="category">特にご相談したい内容（複数選択可）</label>
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="support[]" value="美容（パーソナルカラー・メイク等）"> 美容（パーソナルカラー・メイク等）</label>
+              <label><input type="checkbox" name="support[]" value="健康・ヘッドスパ"> 健康・ヘッドスパ</label>
+              <label><input type="checkbox" name="support[]" value="マネー相談・NISA"> マネー相談・NISA</label>
+              <label><input type="checkbox" name="support[]" value="その他総合的なライフプラン"> その他総合的なライフプラン</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="message">その他ご質問・ご要望など</label>
+            <textarea id="message" name="message" rows="5" placeholder="気になることやご質問がございましたらご自由にお書きください。"></textarea>
+          </div>
+
+          <div class="form-submit center">
+            <button type="submit" class="btn btn-primary" style="width: 100%; max-width: 320px;">入力内容を確認する</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap" style="text-align: center;">
+      <div class="footer-bottom" style="justify-content: center;">
+        <span>© Bloom Life Studio All Rights Reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
