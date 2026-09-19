@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BLOG｜Bloom Life Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Shippori+Mincho:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ===== ブログページ専用スタイル ===== */
+    .blog-hero {
+      background: var(--cream-deep);
+      padding: 60px 0 40px;
+      text-align: center;
+    }
+    .blog-hero h1 {
+      font-size: clamp(28px, 3.5vw, 40px);
+      margin-top: 8px;
+    }
+
+    .blog-container {
+      padding: 60px 0 100px;
+    }
+    .blog-layout {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 48px;
+    }
+
+    /* 記事カード一覧 */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+    }
+    .blog-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      overflow: hidden;
+      transition: transform .3s ease, box-shadow .3s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+    .blog-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 36px -20px rgba(58,46,44,.25);
+    }
+    .blog-card-thumb {
+      aspect-ratio: 16/10;
+      overflow: hidden;
+      position: relative;
+    }
+    .blog-card-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .5s ease;
+    }
+    .blog-card:hover .blog-card-thumb img {
+      transform: scale(1.05);
+    }
+    .blog-card-body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    .blog-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .blog-cat {
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 2px;
+      background: var(--rose-pale);
+      color: var(--rose-deep);
+      letter-spacing: .05em;
+    }
+    .blog-date {
+      font-size: 12px;
+      color: var(--ink-soft);
+    }
+    .blog-card-title {
+      font-size: 17px;
+      line-height: 1.5;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--ink);
+    }
+    .blog-card-excerpt {
+      font-size: 13px;
+      color: var(--ink-soft);
+      line-height: 1.7;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .blog-card-more {
+      margin-top: auto;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--rose-deep);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* 記事詳細（デフォルト非表示） */
+    .blog-detail-view {
+      display: none;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 40px;
+    }
+    .blog-detail-view.is-active {
+      display: block;
+    }
+    .back-to-list {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13.5px;
+      color: var(--ink-soft);
+      font-weight: 500;
+      cursor: pointer;
+      margin-bottom: 28px;
+      transition: color .2s ease;
+    }
+    .back-to-list:hover {
+      color: var(--rose-deep);
+    }
+    .detail-head {
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+    .detail-head h1 {
+      font-size: clamp(22px, 3vw, 30px);
+      line-height: 1.4;
+      margin-top: 14px;
+    }
+    .detail-thumb {
+      width: 100%;
+      max-height: 420px;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-bottom: 36px;
+    }
+    .detail-content {
+      font-size: 15px;
+      line-height: 2;
+      color: var(--ink);
+    }
+    .detail-content h2 {
+      font-size: 20px;
+      margin: 40px 0 18px;
+      padding-left: 12px;
+      border-left: 3px solid var(--rose-deep);
+      line-height: 1.4;
+    }
+    .detail-content p {
+      margin-bottom: 20px;
+    }
+
+    /* サイドバー */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+    .widget {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 24px;
+    }
+    .widget-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 16px;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--line);
+      position: relative;
+    }
+    .widget-title::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 30px;
+      height: 1px;
+      background: var(--rose-deep);
+    }
+    .cat-list li {
+      margin-bottom: 10px;
+    }
+    .cat-list a {
+      font-size: 13.5px;
+      color: var(--ink-soft);
+      display: flex;
+      justify-content: space-between;
+      transition: color .2s ease;
+    }
+    .cat-list a:hover {
+      color: var(--rose-deep);
+    }
+    .profile-widget {
+      text-align: center;
+    }
+    .profile-img {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      margin: 0 auto 14px;
+      object-fit: cover;
+    }
+    .profile-name {
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 8px;
+    }
+    .profile-text {
+      font-size: 12.5px;
+      color: var(--ink-soft);
+      line-height: 1.7;
+    }
+
+    /* レスポンシブ */
+    @media(max-width: 960px) {
+      .blog-layout {
+        grid-template-columns: 1fr;
+      }
+      .blog-grid {
+        grid-template-columns: 1fr;
+      }
+      .blog-detail-view {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ヘッダー -->
+  <header>
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-mark"><img src="img/logo.svg" alt=""></div>
+        <div class="logo-text">
+          <div class="en">Bloom<br><span style="font-size:12px;letter-spacing:.06em;">Life Studio</span></div>
+        </div>
+      </a>
+      <nav class="main-nav">
+        <a href="index.html#hero">HOME<span class="sub">ホーム</span></a>
+        <a href="index.html#about">ABOUT<span class="sub">私たちについて</span></a>
+        <a href="index.html#service">SERVICE<span class="sub">サービス</span></a>
+        <a href="index.html#gift">GIFT<span class="sub">ギフト</span></a>
+        <a href="index.html#event">EVENT<span class="sub">イベント・セミナー</span></a>
+        <a href="blog.html" style="color:var(--rose-deep);">BLOG<span class="sub">ブログ</span></a>
+        <a href="index.html#access">ACCESS<span class="sub">アクセス</span></a>
+      </nav>
+      <div class="header-cta">
+        <div class="tel-block">
+          <div class="num">000-1234-5678</div>
+          <div class="hours">受付時間 9:00-18:00（不定休）</div>
+        </div>
+        <a href="#" class="line-btn"><span class="label">LINEで予約する</span></a>
+      </div>
+      <button class="burger" aria-label="メニュー"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <!-- ヒーローエリア -->
+  <section class="blog-hero">
+    <div class="wrap">
+      <span class="eyebrow" style="justify-content:center;">BLOG & NEWS</span>
+      <h1>コラム・サロンブログ</h1>
+      <p style="margin-top:12px; color:var(--ink-soft); font-size:14px;">美容・健康・ライフスタイルやサロンの日常をお届けします</p>
+    </div>
+  </section>
+
+  <!-- メインコンテンツ -->
+  <div class="blog-container">
+    <div class="wrap">
+      <div class="blog-layout">
+
+        <!-- 左側：記事一覧 / 詳細ビュー -->
+        <main>
+          <!-- 一覧ビュー -->
+          <div class="blog-grid" id="blogListView">
+
+            <!-- 記事1 -->
+            <article class="blog-card" onclick="openArticle(1)">
+              <div class="blog-card-thumb">
+                <img src="img/personalcolor.png" alt="パーソナルカラー診断">
+              </div>
+              <div class="blog-card-body">
+                <div class="blog-meta">
+                  <span class="blog-cat">BEAUTY</span>
+                  <span class="blog-date">2026.05.20</span>
+                </div>
+                <h2 class="blog-card-title">自分に本当に似合う色を知る！パーソナルカラー診断の魅力とは？</h2>
+                <p class="blog-card-excerpt">普段着ている服やメイクの「似合っているかな？」という疑問を解決するパーソナルカラー診断。あなたを一番輝かせる色を見つけるポイントについてご紹介します。</p>
+                <div class="blog-card-more">続きを読む <span>→</span></div>
+              </div>
+            </article>
+
+            <!-- 記事2 -->
+            <article class="blog-card" onclick="openArticle(2)">
+              <div class="blog-card-thumb">
+                <img src="img/head.png" alt="ドライヘッドスパ">
+              </div>
+              <div class="blog-card-body">
+                <div class="blog-meta">
+                  <span class="blog-cat">HEALTH</span>
+                  <span class="blog-date">2026.05.15</span>
+                </div>
+                <h2 class="blog-card-title">【疲れ解消】極上のリラクゼーション。ドライヘッドスパで心も頭もリフレッシュ</h2>
+                <p class="blog-card-excerpt">パソコンやスマホによる眼精疲労、首こりに悩んでいませんか？当サロンで大人気のヘッドスパがもたらす効果と、自宅でできる簡単セルフケアを徹底解説します。</p>
+                <div class="blog-card-more">続きを読む <span>→</span></div>
+              </div>
+            </article>
+
+            <!-- 記事3 -->
+            <article class="blog-card" onclick="openArticle(3)">
+              <div class="blog-card-thumb">
+                <img src="img/money.jpg" alt="マネー講座">
+              </div>
+              <div class="blog-card-body">
+                <div class="blog-meta">
+                  <span class="blog-cat">FINANCE</span>
+                  <span class="blog-date">2026.05.08</span>
+                </div>
+                <h2 class="blog-card-title">【初心者向け】無理なく始める、女性のための新NISA・資産形成の基本</h2>
+                <p class="blog-card-excerpt">「お金の準備をしたいけれど何から始めればいいかわからない…」そんな女性に向けて、将来の安心をつくる資産運用のステップをやさしく解説します。</p>
+                <div class="blog-card-more">続きを読む <span>→</span></div>
+              </div>
+            </article>
+
+            <!-- 記事4 -->
+            <article class="blog-card" onclick="openArticle(4)">
+              <div class="blog-card-thumb">
+                <img src="img/makelesson.png" alt="メイクレッスン">
+              </div>
+              <div class="blog-card-body">
+                <div class="blog-meta">
+                  <span class="blog-cat">BEAUTY</span>
+                  <span class="blog-date">2026.04.28</span>
+                </div>
+                <h2 class="blog-card-title">眉毛ひとつで印象が変わる！自然で垢抜ける「眉メイク」テクニック</h2>
+                <p class="blog-card-excerpt">顔の印象の8割を決めると言われる眉毛。自分に似合う形と、自然に見せるペンシル＆パウダーの使い方をサロン講師が伝授します。</p>
+                <div class="blog-card-more">続きを読む <span>→</span></div>
+              </div>
+            </article>
+
+          </div>
+
+          <!-- 詳細ビュー -->
+          <div class="blog-detail-view" id="blogDetailView">
+            <div class="back-to-list" onclick="closeArticle()">
+              <span>←</span> 一覧に戻る
+            </div>
+
+            <!-- 動的に差し替えられるエリア -->
+            <div id="detailContent">
+              <!-- JSで内容が挿入されます -->
+            </div>
+          </div>
+        </main>
+
+        <!-- 右側：サイドバー -->
+        <aside class="sidebar">
+          <!-- スタッフ紹介 -->
+          <div class="widget profile-widget">
+            <img src="img/top.png" alt="Bloom Life Studio スタッフ" class="profile-img">
+            <div class="profile-name">Bloom Life Studio</div>
+            <p class="profile-text">美容・健康・学び・お金など、多角的なアプローチであなたの「私らしい生き方」をトータルで応援するライフスタイルサロンです。</p>
+          </div>
+
+          <!-- カテゴリー一覧 -->
+          <div class="widget">
+            <h3 class="widget-title">CATEGORY</h3>
+            <ul class="cat-list">
+              <li><a href="#">BEAUTY 美容 <span>(12)</span></a></li>
+              <li><a href="#">HEALTH 健康 <span>(8)</span></a></li>
+              <li><a href="#">LEARNING 学び <span>(5)</span></a></li>
+              <li><a href="#">COMMUNITY 交流 <span>(6)</span></a></li>
+              <li><a href="#">FINANCE お金 <span>(4)</span></a></li>
+            </ul>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- CTAバンド -->
+  <section class="cta-band">
+    <div class="wrap">
+      <h2>あなたらしい人生を、もっと楽しみませんか？</h2>
+      <p>まずはお気軽にご相談ください。</p>
+      <div class="cta-actions">
+        <a href="#" class="btn btn-primary">LINEで予約する</a>
+        <a href="counseling.html" class="btn btn-outline">無料カウンセリング予約</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- フッター -->
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">
+            <div class="logo-mark">B</div>
+            <div>
+              <div class="en">Bloom<br><span style="font-size:11px;letter-spacing:.06em;">Life Studio</span></div>
+            </div>
+          </div>
+          <div class="footer-addr">
+            〒000-0000<br>
+            ○○県○○市○○町1-2-3 Bloomビル1F<br>
+            営業時間 9:00-18:00（不定休）
+          </div>
+          <div class="footer-social">
+            <a href="#" aria-label="Instagram">IG</a>
+            <a href="#" aria-label="LINE">LN</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>MENU</h5>
+          <a href="index.html#hero">HOME｜ホーム</a>
+          <a href="index.html#about">ABOUT｜私たちについて</a>
+          <a href="index.html#service">SERVICE｜サービス</a>
+          <a href="index.html#gift">GIFT｜ギフト</a>
+        </div>
+        <div class="footer-col">
+          <h5>INFORMATION</h5>
+          <a href="index.html#event">EVENT｜イベント・セミナー</a>
+          <a href="index.html#voice">VOICE｜お客様の声</a>
+          <a href="blog.html">BLOG｜ブログ</a>
+          <a href="index.html#access">ACCESS｜アクセス</a>
+          <a href="#">PRIVACY POLICY</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© Bloom Life Studio All Rights Reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // 記事データの保持
+    const articles = {
+      1: {
+        title: "自分に本当に似合う色を知る！パーソナルカラー診断の魅力とは？",
+        category: "BEAUTY",
+        date: "2026.05.20",
+        thumb: "img/personalcolor.png",
+        content: `
+          <p>「いつも似たような色の服ばかり買ってしまう」「新しいコスメを買ったけれど、なんだかしっくりこない…」そんな経験はありませんか？</p>
+          <h2>パーソナルカラーを知るメリット</h2>
+          <p>パーソナルカラーとは、肌や髪、瞳の色などその人が生まれ持った身体の色と雰囲気に調和し、より美しく魅力的に見せる色のことです。</p>
+          <p>自分に似合う色を身につけることで、以下のような嬉しい効果があります。</p>
+          <ul>
+            <li>・肌の透明感が増し、血色がよく健康的に見える</li>
+            <li>・クマやシワなどの肌トラブルが目立ちにくくなる</li>
+            <li>・服やコスメ選びに悩まなくなり、買い物の失敗が減る</li>
+          </ul>
+          <h2>サロンでの診断の流れ</h2>
+          <p>Bloom Life Studioでは、丁寧なカウンセリングを行ったうえで、カラードレープ（布）をお顔に当てて診断していきます。あなた本来の美しさを引き出すプロのアドバイスを、ぜひ体感してみてください。</p>
+        `
+      },
+      2: {
+        title: "【疲れ解消】極上のリラクゼーション。ドライヘッドスパで心も頭もリフレッシュ",
+        category: "HEALTH",
+        date: "2026.05.15",
+        thumb: "img/head.png",
+        content: `
+          <p>長時間のPC作業やスマホの利用で、目が重く感じたり、頭が重だるく感じたりしていませんか？</p>
+          <h2>頭皮のコリは全身の不調のもと</h2>
+          <p>頭皮は顔の皮膚と一枚でつながっています。頭皮の筋肉が緊張して固くなると、血行が悪くなり、首・肩こりや顔のたるみ、慢性的な疲労感を引き起こす原因となります。</p>
+          <h2>当サロンのドライヘッドスパのこだわり</h2>
+          <p>水やオイルを使わず、オールハンドで頭皮から首・肩まわりまでじっくり揉みほぐします。心地よい刺激とリラックス空間で、短時間でも驚くほどのスッキリ感を味わっていただけます。</p>
+        `
+      },
+      3: {
+        title: "【初心者向け】無理なく始める、女性のための新NISA・資産形成の基本",
+        category: "FINANCE",
+        date: "2026.05.08",
+        thumb: "img/money.jpg",
+        content: `
+          <p>将来の生活や老後のお金について、漠然とした不安を抱えている女性は少なくありません。今回は、初心者の方でも安心してスタートできる資産運用についてお伝えします。</p>
+          <h2>なぜ今、資産形成が必要なの？</h2>
+          <p>低金利が続く現代では、ただ銀行にお金を預けておくだけでは資産は増えません。インフレ（物価上昇）対策としても、お金に働いてもらう「投資」の視点が大切になってきます。</p>
+          <h2>無理のない一歩から始めましょう</h2>
+          <p>少額から始められる制度を活用することで、リスクを抑えた運用が可能です。Bloom Life Studioでは、お金のプロが分かりやすくアドバイスする個別相談やセミナーも開催しています。</p>
+        `
+      },
+      4: {
+        title: "眉毛ひとつで印象が変わる！自然で垢抜ける「眉メイク」テクニック",
+        category: "BEAUTY",
+        date: "2026.04.28",
+        thumb: "img/makelesson.png",
+        content: `
+          <p>メイクの中でも「一番難しい」という声を多くいただくのが「眉毛（アイブロウ）」です。</p>
+          <h2>黄金比率で自分に合った眉の形を見つける</h2>
+          <p>眉頭・眉山・眉尻の位置を決める基本の黄金比率を押さえるだけで、一気に垢抜けた印象に仕上がります。自眉の生え方を活かすことが自然に見せるポイントです。</p>
+          <h2>パウダーとペンシルの使い分け</h2>
+          <p>全体はふんわりとパウダーで埋め、足りない毛をペンシルで一本ずつ描き足すことで、立体感のある旬顔が叶います。レッスンでは、ご自身で再現できるよう丁寧にアドバイスいたします。</p>
+        `
+      }
+    };
+
+    // 記事詳細を開く処理
+    function openArticle(id) {
+      const article = articles[id];
+      if (!article) return;
+
+      const detailContainer = document.getElementById('detailContent');
+      detailContainer.innerHTML = `
+        <div class="detail-head">
+          <div class="blog-meta">
+            <span class="blog-cat">${article.category}</span>
+            <span class="blog-date">${article.date}</span>
+          </div>
+          <h1>${article.title}</h1>
+        </div>
+        <img src="${article.thumb}" alt="${article.title}" class="detail-thumb">
+        <div class="detail-content">
+          ${article.content}
+        </div>
+      `;
+
+      document.getElementById('blogListView').style.display = 'none';
+      document.getElementById('blogDetailView').classList.add('is-active');
+      window.scrollTo({ top: 200, behavior: 'smooth' });
+    }
+
+    // 記事詳細から一覧に戻る処理
+    function closeArticle() {
+      document.getElementById('blogDetailView').classList.remove('is-active');
+      document.getElementById('blogListView').style.display = 'grid';
+      window.scrollTo({ top: 200, behavior: 'smooth' });
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,172 @@
+/* ===== ページヘッダー ===== */
+.page-header {
+  padding: 60px 0 40px;
+  background: var(--cream-deep);
+  border-bottom: 1px solid var(--line);
+}
+.page-header h1 {
+  font-size: clamp(32px, 4vw, 44px);
+  margin-top: 10px;
+  color: var(--ink);
+}
+.page-header .lead {
+  margin-top: 12px;
+  font-size: 14.5px;
+  color: var(--ink-soft);
+}
+
+/* ===== アクセス・マップ ===== */
+.access-section {
+  padding: 80px 0;
+}
+.access-map-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 40px;
+  align-items: stretch;
+  margin-bottom: 80px;
+}
+.map-container {
+  width: 100%;
+  min-height: 380px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: 0 12px 30px -15px rgba(58,46,44,0.2);
+}
+.access-summary-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 36px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.access-summary-card h2 {
+  font-size: 24px;
+  margin: 10px 0 14px;
+  color: var(--ink);
+}
+.access-summary-card .address {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+.info-list dl {
+  display: flex;
+  margin-bottom: 10px;
+  font-size: 13.5px;
+}
+.info-list dt {
+  width: 90px;
+  font-weight: 600;
+  color: var(--gold);
+}
+.info-list dd {
+  color: var(--ink-soft);
+}
+.map-link-btn {
+  margin-top: 24px;
+  width: 100%;
+}
+
+/* ===== 交通手段カード ===== */
+.route-guide {
+  margin-bottom: 80px;
+}
+.route-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+.route-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 32px 24px;
+  text-align: center;
+}
+.route-icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  background: var(--rose-pale);
+  color: var(--rose-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.route-card h3 {
+  font-size: 17px;
+  margin-bottom: 12px;
+}
+.route-card .desc {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  text-align: left;
+}
+
+/* ===== 店舗詳細テーブル ===== */
+.shop-detail {
+  max-width: 900px;
+  margin: 0 auto;
+}
+.detail-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+.detail-table th,
+.detail-table td {
+  padding: 18px 24px;
+  font-size: 14px;
+  border-bottom: 1px solid var(--line);
+  line-height: 1.7;
+}
+.detail-table tr:last-child th,
+.detail-table tr:last-child td {
+  border-bottom: none;
+}
+.detail-table th {
+  width: 28%;
+  background: var(--cream-deep);
+  color: var(--ink);
+  font-weight: 600;
+  text-align: left;
+  vertical-align: top;
+}
+.detail-table td {
+  color: var(--ink-soft);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 960px) {
+  .access-map-grid {
+    grid-template-columns: 1fr;
+  }
+  .route-grid {
+    grid-template-columns: 1fr;
+  }
+  .detail-table th,
+  .detail-table td {
+    display: block;
+    width: 100%;
+  }
+  .detail-table th {
+    padding-bottom: 6px;
+    background: #fff;
+    color: var(--gold);
+  }
+  .detail-table td {
+    padding-top: 0;
+  }
+}
